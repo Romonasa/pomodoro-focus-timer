@@ -70,6 +70,7 @@ VirusTotal-Scan:
 
 [HTML-Datei](https://www.virustotal.com/gui/file/bcfc0fcd77f0e53d897111b39bae654abec3e4426bf19f37e62a7adfddf0b429)
 [.bat-Datei](https://www.virustotal.com/gui/file/97d4d71635f35a5408e06715ceabc3c6aaccc6d2e33d3681f1850ded69f1b3b4)
+
 Lizenz
 
 Veröffentlicht unter der MIT-Lizenz — frei nutzbar, kopierbar und weitergebbar, auch für Schulen, Förderstätten und andere Institutionen, ohne Rückfrage nötig.
