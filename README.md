@@ -69,6 +69,7 @@ d3e0ab990a772822ff39b65ffb89f7f932686964734ca7c0d842e5c8dbebff88
 VirusTotal-Scan:
 
 [HTML-Datei](https://www.virustotal.com/gui/file/bcfc0fcd77f0e53d897111b39bae654abec3e4426bf19f37e62a7adfddf0b429)
+
 [.bat-Datei](https://www.virustotal.com/gui/file/97d4d71635f35a5408e06715ceabc3c6aaccc6d2e33d3681f1850ded69f1b3b4)
 
 Lizenz
