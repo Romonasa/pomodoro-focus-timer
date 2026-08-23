@@ -1,6 +1,6 @@
 🍅 Pomodoro-Focus-Timer
 Ein kostenloser, portabler Fokus-Timer nach der Pomodoro-Technik — mit Meeting-Modus und von Grund auf mitgedachter Barrierefreiheit. Keine Installation, kein Konto, keine Cloud, keine Kosten.
-→ Jetzt öffnen / herunterladen
+[→ Jetzt öffnen / herunterladen](https://romonasa.github.io/pomodoro-focus-timer/Pomodoro-Focus-Timer.html)
 Was ist der Pomodoro-Focus-Timer?
 Die Pomodoro-Technik teilt Arbeitszeit in fokussierte Abschnitte mit kurzen Pausen dazwischen — bewährt gegen Aufschieberitis und für nachhaltige Konzentration. Dieser Timer setzt das um, mit ein paar zusätzlichen Dingen, die im Alltag wirklich fehlen:
 Meeting-Modus — kein Pomodoro-Zyklus, sondern ein dezenter persönlicher Wecker für Besprechungen mit fester Dauer, inkl. Vorwarnung ein paar Minuten vor Schluss, für einen pünktlichen statt gehetzten Abschluss
@@ -43,7 +43,15 @@ Es werden keinerlei Daten gesammelt, gespeichert oder übertragen. Alle Einstell
 Sicherheit
 Vollständig quelloffen — jede Zeile Code ist hier einsehbar, nichts ist verborgen
 Enthält eine strikte Content-Security-Policy, die jegliche Netzwerkverbindung auf Browser-Ebene blockiert
-SHA-256-Prüfsummen: werden ergänzt
+SHA-256-Prüfsummen: 
+Pomodoro-Focus-Timer.html
+3552bd5b354922cd709aa5dd9f62252274fbbdf70cd79fba4e6272e64134eaf3
+Pomodoro-Focus-Timer-starten.bat
+a23a467bb979266c7f7f846909a4bf1b4f1da80e94f5311d64bc427fdd77fe84
+Pomodoro-Focus-Timer-Icon.ico
+cc8d7861e0104a112caf608c369129ff1208f6d74f9aa3773a23e7873cd1a597
+Pomodoro-Focus-Timer-Bedienungsanleitung.pdf
+2af439313fc31fdcfb3c5e4200617b51a166572dfad3856961e14f15f906bef9
 VirusTotal-Scan: wird ergänzt
 Lizenz
 Veröffentlicht unter der MIT-Lizenz — frei nutzbar, kopierbar und weitergebbar, auch für Schulen, Förderstätten und andere Institutionen, ohne Rückfrage nötig.
