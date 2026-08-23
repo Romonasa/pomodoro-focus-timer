@@ -1,15 +1,11 @@
 @echo off
-setlocal
+rem Pomodoro-Focus-Timer -- oeffnet die aktuelle Online-Version in einem
+rem eigenen, schlanken App-Fenster (kein Tab, keine Adressleiste).
+rem Benoetigt eine Internetverbindung beim Start und Chrome oder Edge.
 
-rem --- Pfad dieser Datei ermitteln (Ordner, in dem auch die HTML-Datei liegt) ---
-set "DIR=%~dp0"
-set "FILEPATH=%DIR%Pomodoro-Focus-Timer.html"
-set "FILEURL=file:///%FILEPATH:\=/%"
-
-rem --- Fenstergroesse fuer das App-Fenster (Breite,Hoehe in Pixel) ---
+set "URL=https://romonasa.github.io/pomodoro-focus-timer/Pomodoro-Focus-Timer.html"
 set "WINSIZE=420,720"
 
-rem --- Moegliche Installationspfade von Chrome / Edge ---
 set "PF=%ProgramFiles%"
 set "PF86=%ProgramFiles(x86)%"
 set "LAD=%LocalAppData%"
@@ -28,28 +24,28 @@ if exist "%EDGE2%" goto :USE_EDGE2
 goto :FALLBACK
 
 :USE_CHROME1
-start "" "%CHROME1%" --app="%FILEURL%" --window-size=%WINSIZE%
+start "" "%CHROME1%" --app="%URL%" --window-size=%WINSIZE%
 goto :END
 
 :USE_CHROME2
-start "" "%CHROME2%" --app="%FILEURL%" --window-size=%WINSIZE%
+start "" "%CHROME2%" --app="%URL%" --window-size=%WINSIZE%
 goto :END
 
 :USE_CHROME3
-start "" "%CHROME3%" --app="%FILEURL%" --window-size=%WINSIZE%
+start "" "%CHROME3%" --app="%URL%" --window-size=%WINSIZE%
 goto :END
 
 :USE_EDGE1
-start "" "%EDGE1%" --app="%FILEURL%" --window-size=%WINSIZE%
+start "" "%EDGE1%" --app="%URL%" --window-size=%WINSIZE%
 goto :END
 
 :USE_EDGE2
-start "" "%EDGE2%" --app="%FILEURL%" --window-size=%WINSIZE%
+start "" "%EDGE2%" --app="%URL%" --window-size=%WINSIZE%
 goto :END
 
 :FALLBACK
-rem Chrome/Edge an den ueblichen Stellen nicht gefunden - oeffnet stattdessen normal im Standardbrowser
-start "" "%FILEPATH%"
+rem Chrome/Edge an den ueblichen Stellen nicht gefunden - oeffnet stattdessen
+rem im Standardbrowser als normalen Tab
+start "" "%URL%"
 
 :END
-endlocal
