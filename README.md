@@ -2,7 +2,7 @@
 
 Eine kostenlose Uhr, die dir hilft, konzentriert zu arbeiten — mit einem eingebauten Meeting-Wecker und von Grund auf für Barrierefreiheit gebaut. Keine Installation, kein Konto, keine Kosten.
 
-→ Uhr jetzt öffnen
+[→ Uhr jetzt öffnen](https://romonasa.github.io/pomodoro-focus-timer/Pomodoro-Focus-Timer.html)
 
 Was ist das?
 
@@ -68,8 +68,8 @@ d3e0ab990a772822ff39b65ffb89f7f932686964734ca7c0d842e5c8dbebff88
 
 VirusTotal-Scan:
 
-HTML-Datei
-.bat-Datei
+[HTML-Datei](https://www.virustotal.com/gui/file/bcfc0fcd77f0e53d897111b39bae654abec3e4426bf19f37e62a7adfddf0b429)
+[.bat-Datei](https://www.virustotal.com/gui/file/97d4d71635f35a5408e06715ceabc3c6aaccc6d2e33d3681f1850ded69f1b3b4)
 Lizenz
 
 Veröffentlicht unter der MIT-Lizenz — frei nutzbar, kopierbar und weitergebbar, auch für Schulen, Förderstätten und andere Institutionen, ohne Rückfrage nötig.
