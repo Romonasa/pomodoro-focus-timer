@@ -62,6 +62,7 @@ Falls du die Uhr an einem Ort ohne Internetzugang brauchst (z. B. Schule ohne WL
 | `Pomodoro-Focus-Timer-Icon.ico` | Symbol für eigene Verknüpfungen |
 | `Pomodoro-Focus-Timer-Bedienungsanleitung.pdf` | Ausführliche, für Einsteiger geschriebene Anleitung (Deutsch) |
 | `Pomodoro-Focus-Timer-User-Guide.pdf` | Same guide, in English |
+| `Pomodoro-Focus-Timer-Promo-Quadrat.png` | Vorschaubild für Social-Media-Links (Discord/WhatsApp/Insta usw.) |
 
 ---
 
@@ -75,22 +76,32 @@ Es werden **keinerlei Daten gesammelt, gespeichert oder übertragen**. Alle Eins
 
 - Vollständig quelloffen — jede Zeile Code ist hier einsehbar
 - Enthält eine strikte Content-Security-Policy, die jegliche Netzwerkverbindung auf Browser-Ebene blockiert
+- Beide PDFs objektiv geprüft: kein JavaScript, keine Formularfelder, keine automatischen Aktionen beim Öffnen
 
 **SHA-256-Prüfsummen** (zur Überprüfung, dass deine Datei unverändert ist):
 ```
 Pomodoro-Focus-Timer.html
-bcfc0fcd77f0e53d897111b39bae654abec3e4426bf19f37e62a7adfddf0b429
+ebe6300add16a915e107f6425b8b8f969004a156a3bfea6bbd4a2e063a8a8d5a
 
 Pomodoro-Focus-Timer-starten.bat
 97d4d71635f35a5408e06715ceabc3c6aaccc6d2e33d3681f1850ded69f1b3b4
 
 Pomodoro-Focus-Timer-Bedienungsanleitung.pdf
-d3e0ab990a772822ff39b65ffb89f7f932686964734ca7c0d842e5c8dbebff88
+921024491e9032c5cfbd11e6fbe79fde541c1c0760b447e2057b97ca6e807a50
+
+Pomodoro-Focus-Timer-User-Guide.pdf
+5bcc127db1576b52c9bd2fb233084709b682062cb152ff5902c43d3822316228
+
+Pomodoro-Focus-Timer-Promo-Quadrat.png
+3b5ba3d3f7c02234f0693e9f6602b7b4faa26a8651dee0867c86e84ba914a067
 ```
 
 **VirusTotal-Scan:**
-- [HTML-Datei](https://www.virustotal.com/gui/file/bcfc0fcd77f0e53d897111b39bae654abec3e4426bf19f37e62a7adfddf0b429)
+- [HTML-Datei](https://www.virustotal.com/gui/file/ebe6300add16a915e107f6425b8b8f969004a156a3bfea6bbd4a2e063a8a8d5a)
 - [.bat-Datei](https://www.virustotal.com/gui/file/97d4d71635f35a5408e06715ceabc3c6aaccc6d2e33d3681f1850ded69f1b3b4)
+- [PDF (Deutsch)](https://www.virustotal.com/gui/file/921024491e9032c5cfbd11e6fbe79fde541c1c0760b447e2057b97ca6e807a50)
+- [PDF (English)](https://www.virustotal.com/gui/file/5bcc127db1576b52c9bd2fb233084709b682062cb152ff5902c43d3822316228)
+- [Promo-Bild (PNG)](https://www.virustotal.com/gui/file/3b5ba3d3f7c02234f0693e9f6602b7b4faa26a8651dee0867c86e84ba914a067)
 
 ---
 
