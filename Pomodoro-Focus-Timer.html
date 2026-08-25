@@ -5,6 +5,16 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src data:; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none';">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pomodoro — Fokus-Uhr</title>
+<meta name="description" content="Kostenloser, barrierefreier Pomodoro-Timer mit Meeting-Modus. Keine Installation, kein Konto, keine Kosten.">
+<meta property="og:title" content="Pomodoro-Focus-Timer">
+<meta property="og:description" content="Kostenloser, barrierefreier Pomodoro-Timer mit Meeting-Modus. Keine Installation, kein Konto, keine Kosten.">
+<meta property="og:image" content="https://romonasa.github.io/pomodoro-focus-timer/Pomodoro-Focus-Timer-Promo-Quadrat.png">
+<meta property="og:url" content="https://romonasa.github.io/pomodoro-focus-timer/Pomodoro-Focus-Timer.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pomodoro-Focus-Timer">
+<meta name="twitter:description" content="Kostenloser, barrierefreier Pomodoro-Timer mit Meeting-Modus.">
+<meta name="twitter:image" content="https://romonasa.github.io/pomodoro-focus-timer/Pomodoro-Focus-Timer-Promo-Quadrat.png">
 <link rel="icon" type="image/x-icon" href="Pomodoro-Focus-Timer-Icon.ico">
 <style>
 @font-face {
@@ -66,6 +76,7 @@
   }
   .ghost-btn:hover{ color: var(--accent); border-color:#33414c; }
   .ghost-btn svg{ width:14px; height:14px; }
+  .lang-btn{ font-size:11px; font-weight:700; letter-spacing:.02em; }
 
   /* --- Gehäuse --- */
   .device{
@@ -356,7 +367,12 @@
   body.pip-mode .glass{ inset:26px; }
   body.pip-mode .time{ font-size:36px; }
   body.pip-mode .corner-btn{ width:28px; height:28px; }
+  body.pip-mode #settingsToggle{ display:none; }
   body.pip-mode .corner-btn svg{ width:14px; height:14px; }
+  body.pip-mode .corner-btn.tl{ top:8px; left:8px; }
+  body.pip-mode .corner-btn.tr{ top:8px; right:8px; }
+  body.pip-mode .corner-btn.bl{ bottom:8px; left:8px; }
+  body.pip-mode .corner-btn.br{ bottom:8px; right:8px; }
   body.pip-mode .daily-count{ display:none; }
 
   /* Platzhalter im Haupt-Tab, solange die Uhr im schwebenden Fenster läuft */
@@ -407,8 +423,9 @@
 
 <div class="page">
   <div class="toolbar">
-    <span class="title">Fokus-Uhr</span>
+    <span class="title" id="uiTitle">Fokus-Uhr</span>
     <div style="display:flex; gap:6px;">
+      <button class="ghost-btn lang-btn" id="langBtn" title="Switch to English" aria-label="Switch to English">EN</button>
       <button class="ghost-btn" id="helpBtn" title="Bedienungsanleitung" aria-label="Bedienungsanleitung">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
@@ -507,21 +524,21 @@
   </div>
 
   <div class="modes">
-    <button data-mode="focus" class="active">Fokus</button>
-    <button data-mode="short">Kurze Pause</button>
-    <button data-mode="long">Lange Pause</button>
-    <button data-mode="meeting">Meeting</button>
+    <button data-mode="focus" class="active" id="modeFocusBtn">Fokus</button>
+    <button data-mode="short" id="modeShortBtn">Kurze Pause</button>
+    <button data-mode="long" id="modeLongBtn">Lange Pause</button>
+    <button data-mode="meeting" id="modeMeetingBtn">Meeting</button>
   </div>
 
   <div class="settings" id="settingsPanel">
     <div class="preset-row" id="learnPresetRow">
-      <button class="preset-btn" data-preset="classic">Klassisch<br><small>25/5</small></button>
+      <button class="preset-btn" data-preset="classic" id="presetClassicBtn">Klassisch<br><small>25/5</small></button>
       <button class="preset-btn" data-preset="deepwork">Deep Work<br><small>50/10</small></button>
       <button class="preset-btn" data-preset="ultradian">Ultradian<br><small>90/20</small></button>
     </div>
     <div class="settings-inner">
       <div class="setting">
-        <div class="label">Fokus</div>
+        <div class="label" id="labelFocus">Fokus</div>
         <div class="stepper">
           <button data-adjust="focus" data-delta="-1">–</button>
           <span class="val" id="valFocus">25</span>
@@ -529,7 +546,7 @@
         </div>
       </div>
       <div class="setting">
-        <div class="label">Kurz</div>
+        <div class="label" id="labelShort">Kurz</div>
         <div class="stepper">
           <button data-adjust="short" data-delta="-1">–</button>
           <span class="val" id="valShort">5</span>
@@ -537,7 +554,7 @@
         </div>
       </div>
       <div class="setting">
-        <div class="label">Lang</div>
+        <div class="label" id="labelLong">Lang</div>
         <div class="stepper">
           <button data-adjust="long" data-delta="-1">–</button>
           <span class="val" id="valLong">15</span>
@@ -545,10 +562,10 @@
         </div>
       </div>
     </div>
-    <div class="settings-divider">Meeting</div>
+    <div class="settings-divider" id="dividerMeeting">Meeting</div>
     <div class="settings-inner meeting-grid">
       <div class="setting">
-        <div class="label">Dauer</div>
+        <div class="label" id="labelDuration">Dauer</div>
         <div class="stepper">
           <button data-adjust="meeting" data-delta="-5">–</button>
           <span class="val" id="valMeeting">60</span>
@@ -556,7 +573,7 @@
         </div>
       </div>
       <div class="setting">
-        <div class="label">Vorwarnung</div>
+        <div class="label" id="labelWarning">Vorwarnung</div>
         <div class="stepper">
           <button data-adjust="warn" data-delta="-5">–</button>
           <span class="val" id="valWarn">10</span>
@@ -565,59 +582,60 @@
       </div>
     </div>
     <div class="preset-row" id="meetingPresetRow">
-      <button class="preset-btn" data-meeting-preset="15">15 Min.</button>
-      <button class="preset-btn" data-meeting-preset="30">30 Min.</button>
-      <button class="preset-btn" data-meeting-preset="45">45 Min.</button>
-      <button class="preset-btn" data-meeting-preset="60">60 Min.</button>
+      <button class="preset-btn" data-meeting-preset="15" id="mp15">15 Min.</button>
+      <button class="preset-btn" data-meeting-preset="30" id="mp30">30 Min.</button>
+      <button class="preset-btn" data-meeting-preset="45" id="mp45">45 Min.</button>
+      <button class="preset-btn" data-meeting-preset="60" id="mp60">60 Min.</button>
     </div>
     <div class="setting-row">
       <label class="switch-label">
         <input type="checkbox" id="autoContinue">
-        <span>Automatisch weiter (Fokus/Pause)</span>
+        <span id="labelAutoContinue">Automatisch weiter (Fokus/Pause)</span>
       </label>
     </div>
 
-    <div class="settings-divider">Darstellung</div>
+    <div class="settings-divider" id="dividerAppearance">Darstellung</div>
     <div class="theme-row" id="themeRow">
-      <button class="theme-btn active" data-theme="standard">Standard</button>
-      <button class="theme-btn" data-theme="buero">Büro</button>
-      <button class="theme-btn" data-theme="kontrast">Kontrast</button>
-      <button class="theme-btn" data-theme="bunt">Bunt</button>
+      <button class="theme-btn active" data-theme="standard" id="themeStandardBtn">Standard</button>
+      <button class="theme-btn" data-theme="buero" id="themeBueroBtn">Büro</button>
+      <button class="theme-btn" data-theme="kontrast" id="themeKontrastBtn">Kontrast</button>
+      <button class="theme-btn" data-theme="bunt" id="themeBuntBtn">Bunt</button>
     </div>
     <div class="fontsize-row" id="fontsizeRow">
-      <button class="fontsize-btn" data-size="klein">Klein</button>
-      <button class="fontsize-btn active" data-size="mittel">Mittel</button>
-      <button class="fontsize-btn" data-size="gross">Groß</button>
+      <button class="fontsize-btn" data-size="klein" id="sizeKleinBtn">Klein</button>
+      <button class="fontsize-btn active" data-size="mittel" id="sizeMittelBtn">Mittel</button>
+      <button class="fontsize-btn" data-size="gross" id="sizeGrossBtn">Groß</button>
     </div>
     <div class="setting-row">
       <label class="switch-label">
         <input type="checkbox" id="noBlinkBox">
-        <span>Ruhige Anzeige (kein Blinken)</span>
+        <span id="labelNoBlink">Ruhige Anzeige (kein Blinken)</span>
       </label>
     </div>
   </div>
 
-  <div class="hint">Zahl antippen für direkte Eingabe · Enter bestätigt</div>
+  <div class="hint" id="hintText">Zahl antippen für direkte Eingabe · Enter bestätigt</div>
   <div class="credit">Made by Romonasa</div>
   <div id="srAnnounce" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 </div>
 
 <div class="temp-warning" id="tempWarning">
-  <p>⚠️ Diese Datei scheint direkt aus einem E-Mail-Anhang oder einem temporären Ordner geöffnet worden zu sein. Deine Einstellungen gehen dann beim nächsten Öffnen möglicherweise verloren, und du bekommst keine Updates zu sehen.</p>
-  <p class="temp-warning-hint">Speichere die Datei zuerst an einem festen Ort auf deinem Computer (z.&nbsp;B. im Downloads-Ordner) und öffne sie von dort aus erneut.</p>
+  <p id="tempWarningMsg">⚠️ Diese Datei scheint direkt aus einem E-Mail-Anhang oder einem temporären Ordner geöffnet worden zu sein. Deine Einstellungen gehen dann beim nächsten Öffnen möglicherweise verloren, und du bekommst keine Updates zu sehen.</p>
+  <p class="temp-warning-hint" id="tempWarningHint">Speichere die Datei zuerst an einem festen Ort auf deinem Computer (z.&nbsp;B. im Downloads-Ordner) und öffne sie von dort aus erneut.</p>
   <button id="tempWarningClose">Verstanden, ausblenden</button>
 </div>
 
 <div class="pip-placeholder" id="pipPlaceholder">
-  <p class="pip-placeholder-msg">⏸ Die Uhr läuft im schwebenden Fenster</p>
-  <p class="pip-placeholder-hint">Dieses Tab kannst du jetzt minimieren.</p>
+  <p class="pip-placeholder-msg" id="pipMsg">⏸ Die Uhr läuft im schwebenden Fenster</p>
+  <p class="pip-placeholder-hint" id="pipHint">Dieses Tab kannst du jetzt minimieren.</p>
   <button class="ghost-btn pip-return-btn" id="pipReturnBtn">Zurückholen</button>
 </div>
 
 <div class="help-overlay" id="helpOverlay">
   <div class="help-card">
     <button class="help-close" id="helpClose" aria-label="Schliessen">✕</button>
-    <h2>Bedienungsanleitung</h2>
+    <h2 id="helpTitle">Bedienungsanleitung</h2>
+    <div id="helpContent">
 
     <h3>So öffnest du die Uhr</h3>
     <p><b>Für alle Geräte:</b> Einfach diesen Link antippen oder anklicken — funktioniert auf Computer, Handy oder Tablet, egal ob Windows, Mac, iPhone/iPad oder Android:</p>
@@ -689,6 +707,7 @@
 
     <h3>Deine Einstellungen bleiben erhalten</h3>
     <p>Alles, was du einstellst, merkt sich die Uhr von selbst — auch nach dem Schliessen. Es wird nichts irgendwohin verschickt, alles bleibt auf deinem eigenen Gerät.</p>
+    </div>
   </div>
 </div>
 
@@ -836,7 +855,7 @@
   }
   function updateDailyDisplay(){
     const el = document.getElementById('dailyCount');
-    if (el) el.textContent = dailyCount + (dailyCount === 1 ? ' Pomodoro heute' : ' Pomodoros heute');
+    if (el) el.textContent = dailyCount + (dailyCount === 1 ? t('dailySingular') : t('dailyPlural'));
   }
   loadDaily();
 
@@ -851,7 +870,7 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         durations, warnMinutes, noBlink,
         theme: currentTheme, fontSize: currentFontSize,
-        soundOn, notifyOn,
+        soundOn, notifyOn, lang: currentLang,
         autoContinue: document.getElementById('autoContinue').checked
       }));
     }catch(e){}
@@ -899,9 +918,90 @@
   const glassEl = document.querySelector('.glass');
   const srAnnounce = document.getElementById('srAnnounce');
   function announce(text){ srAnnounce.textContent = text; }
-  const pageTitleBase = document.title;
+  let pageTitleBase = document.title;
   let notifyOn = false;
   let titleFlashHandle = null;
+
+  // ==================== SPRACHE / LANGUAGE ====================
+  let currentLang = 'de';
+  const WEEKDAYS = { de:['So','Mo','Di','Mi','Do','Fr','Sa'], en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] };
+  const MODE_LABELS = {
+    de:{ focus:'Fokus', short:'Kurze Pause', long:'Lange Pause', meeting:'Meeting' },
+    en:{ focus:'Focus', short:'Short Break', long:'Long Break', meeting:'Meeting' }
+  };
+  const I18N = {
+    de: {
+      title:'Fokus-Uhr', helpLabel:'Bedienungsanleitung', pipLabel:'Immer im Vordergrund öffnen',
+      powerLabel:'Start / Pause', settingsLabel:'Einstellungen', resetLabel:'Zurücksetzen', skipLabel:'Überspringen',
+      muteLabel:'Ton an/aus', notifLabel:'Systembenachrichtigung an/aus',
+      timeAria:'Verbleibende Zeit. Antippen oder Enter drücken, dann Minutenzahl eingeben zum Ändern, Enter bestätigt.',
+      presetClassic:'Klassisch', presetDeepwork:'Deep Work', presetUltradian:'Ultradian',
+      labelFocus:'Fokus', labelShort:'Kurz', labelLong:'Lang',
+      dividerMeeting:'Meeting', labelDuration:'Dauer', labelWarning:'Vorwarnung',
+      mpSuffix:' Min.', labelAutoContinue:'Automatisch weiter (Fokus/Pause)',
+      dividerAppearance:'Darstellung',
+      themeStandard:'Standard', themeBuero:'Büro', themeKontrast:'Kontrast', themeBunt:'Bunt',
+      sizeKlein:'Klein', sizeMittel:'Mittel', sizeGross:'Groß',
+      labelNoBlink:'Ruhige Anzeige (kein Blinken)',
+      hintText:'Zahl antippen für direkte Eingabe · Enter bestätigt',
+      tempWarningMsg:'⚠️ Diese Datei scheint direkt aus einem E-Mail-Anhang oder einem temporären Ordner geöffnet worden zu sein. Deine Einstellungen gehen dann beim nächsten Öffnen möglicherweise verloren, und du bekommst keine Updates zu sehen.',
+      tempWarningHint:'Speichere die Datei zuerst an einem festen Ort auf deinem Computer (z.\u00A0B. im Downloads-Ordner) und öffne sie von dort aus erneut.',
+      tempWarningClose:'Verstanden, ausblenden',
+      pipMsg:'⏸ Die Uhr läuft im schwebenden Fenster', pipHint:'Dieses Tab kannst du jetzt minimieren.', pipReturn:'Zurückholen',
+      helpTitle:'Bedienungsanleitung',
+      dailySingular:' Pomodoro heute', dailyPlural:' Pomodoros heute',
+      announceModePrefix:'Modus: ', announceMinutesSuffix:' Minuten',
+      announceStartedPrefix:'Gestartet: ', announceRemainingSuffix:' verbleibend',
+      announcePaused:'Pausiert',
+      announceMeetingWarn:(m)=>`Noch ${m} Minuten bis Meeting-Ende`,
+      announceMeetingEnd:'Meeting-Zeit abgelaufen',
+      flashWarnTitle:(m)=>`⏰ Noch ${m} Min.`, flashMeetingEnd:'⏰ Meeting-Ende!',
+      flashPause:'⏰ Pause!', flashFocus:'⏰ Fokus!',
+      notifWarnTitle:'Meeting bald zu Ende', notifWarnBody:(m)=>`Noch ca. ${m} Minuten.`,
+      notifMeetingEndTitle:'Meeting-Zeit abgelaufen', notifMeetingEndBody:'Die geplante Dauer ist erreicht.',
+      notifFocusDoneTitle:'Fokuszeit vorbei', notifFocusDoneBody:'Zeit für eine Pause.',
+      notifPauseDoneTitle:'Pause vorbei', notifPauseDoneBody:'Zeit, sich wieder zu konzentrieren.',
+      alertNoNotif:'Dein Browser unterstützt keine Systembenachrichtigungen.',
+      alertNotifBlocked:'Benachrichtigungen sind im Browser blockiert. Bitte in den Website-Einstellungen des Browsers erlauben.',
+      alertNoPip:'Diese Funktion benötigt Chrome oder Edge (aktuelle Version). Der Timer läuft trotzdem normal weiter.',
+    },
+    en: {
+      title:'Focus Timer', helpLabel:'User Guide', pipLabel:'Open always-on-top',
+      powerLabel:'Start / Pause', settingsLabel:'Settings', resetLabel:'Reset', skipLabel:'Skip',
+      muteLabel:'Sound on/off', notifLabel:'System notification on/off',
+      timeAria:'Time remaining. Tap or press Enter, then type a number of minutes to change it, Enter confirms.',
+      presetClassic:'Classic', presetDeepwork:'Deep Work', presetUltradian:'Ultradian',
+      labelFocus:'Focus', labelShort:'Short', labelLong:'Long',
+      dividerMeeting:'Meeting', labelDuration:'Duration', labelWarning:'Heads-up',
+      mpSuffix:' min', labelAutoContinue:'Auto-continue (Focus/Break)',
+      dividerAppearance:'Appearance',
+      themeStandard:'Standard', themeBuero:'Office', themeKontrast:'Contrast', themeBunt:'Colorful',
+      sizeKlein:'Small', sizeMittel:'Medium', sizeGross:'Large',
+      labelNoBlink:'Calm display (no flashing)',
+      hintText:'Tap the number to type a new time · Enter confirms',
+      tempWarningMsg:"⚠️ This file seems to have been opened directly from an email attachment or a temporary folder. Your settings may be lost the next time you open it, and you won't see any updates.",
+      tempWarningHint:'Save the file to a permanent location on your computer first (e.g. your Downloads folder) and open it from there instead.',
+      tempWarningClose:'Got it, dismiss',
+      pipMsg:'⏸ The timer is running in the floating window', pipHint:'You can minimize this tab now.', pipReturn:'Bring back',
+      helpTitle:'User Guide',
+      dailySingular:' Pomodoro today', dailyPlural:' Pomodoros today',
+      announceModePrefix:'Mode: ', announceMinutesSuffix:' minutes',
+      announceStartedPrefix:'Started: ', announceRemainingSuffix:' remaining',
+      announcePaused:'Paused',
+      announceMeetingWarn:(m)=>`${m} minutes left until the meeting ends`,
+      announceMeetingEnd:'Meeting time is up',
+      flashWarnTitle:(m)=>`⏰ ${m} min left`, flashMeetingEnd:'⏰ Meeting over!',
+      flashPause:'⏰ Break!', flashFocus:'⏰ Focus!',
+      notifWarnTitle:'Meeting wrapping up soon', notifWarnBody:(m)=>`About ${m} minutes left.`,
+      notifMeetingEndTitle:'Meeting time is up', notifMeetingEndBody:'The scheduled duration has been reached.',
+      notifFocusDoneTitle:'Focus session over', notifFocusDoneBody:'Time for a break.',
+      notifPauseDoneTitle:'Break is over', notifPauseDoneBody:'Time to focus again.',
+      alertNoNotif:"Your browser doesn't support system notifications.",
+      alertNotifBlocked:'Notifications are blocked in your browser. Please allow them in your browser\u2019s site settings.',
+      alertNoPip:'This feature needs a recent version of Chrome or Edge. The timer keeps running normally either way.',
+    }
+  };
+  function t(key){ return I18N[currentLang][key]; }
 
   function renderDots(){
     dotsEl.innerHTML = '';
@@ -931,10 +1031,9 @@
   }
   remaining = durations[currentMode]*60; totalForMode = remaining;
 
-  const WEEKDAYS = ['So','Mo','Di','Mi','Do','Fr','Sa'];
   function updateClock(){
     const now = new Date();
-    weekdayEl.textContent = WEEKDAYS[now.getDay()];
+    weekdayEl.textContent = WEEKDAYS[currentLang][now.getDay()];
     const hh = String(now.getHours()).padStart(2,'0');
     const mm = String(now.getMinutes()).padStart(2,'0');
     clockNowEl.textContent = hh+':'+mm;
@@ -959,7 +1058,6 @@
     recDot.classList.toggle('active', running && (currentMode === 'focus' || currentMode === 'meeting'));
   }
 
-  const MODE_LABELS = { focus:'Fokus', short:'Kurze Pause', long:'Lange Pause', meeting:'Meeting' };
   function setMode(mode, resetTime=true){
     currentMode = mode;
     modeButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
@@ -968,7 +1066,7 @@
       if (mode === 'meeting') warnFired = false;
     }
     updateDisplay();
-    announce('Modus: ' + MODE_LABELS[mode] + ', ' + durations[mode] + ' Minuten');
+    announce(t('announceModePrefix') + MODE_LABELS[currentLang][mode] + ', ' + durations[mode] + t('announceMinutesSuffix'));
   }
 
   function tick(){
@@ -995,9 +1093,9 @@
       }, 1300);
     }
     playWarnTone();
-    flashTitle(`⏰ Noch ${warnMinutes} Min.`);
-    sendNotification('Meeting bald zu Ende', `Noch ca. ${warnMinutes} Minuten.`);
-    announce(`Noch ${warnMinutes} Minuten bis Meeting-Ende`);
+    flashTitle(t('flashWarnTitle')(warnMinutes));
+    sendNotification(t('notifWarnTitle'), t('notifWarnBody')(warnMinutes));
+    announce(t('announceMeetingWarn')(warnMinutes));
   }
 
   function playWarnTone(){
@@ -1082,9 +1180,9 @@
       remaining = durations.meeting*60;
       totalForMode = remaining;
       updateDisplay();
-      flashTitle('⏰ Meeting-Ende!');
-      sendNotification('Meeting-Zeit abgelaufen', 'Die geplante Dauer ist erreicht.');
-      announce('Meeting-Zeit abgelaufen');
+      flashTitle(t('flashMeetingEnd'));
+      sendNotification(t('notifMeetingEndTitle'), t('notifMeetingEndBody'));
+      announce(t('announceMeetingEnd'));
       return;
     }
 
@@ -1094,12 +1192,12 @@
       bumpDailyCount();
       if (completedFocusSessions >= sessionsBeforeLong){ completedFocusSessions = 0; renderDots(); setMode('long'); }
       else { setMode('short'); }
-      flashTitle('⏰ Pause!');
-      sendNotification('Fokuszeit vorbei', 'Zeit für eine Pause.');
+      flashTitle(t('flashPause'));
+      sendNotification(t('notifFocusDoneTitle'), t('notifFocusDoneBody'));
     } else {
       setMode('focus');
-      flashTitle('⏰ Fokus!');
-      sendNotification('Pause vorbei', 'Zeit, sich wieder zu konzentrieren.');
+      flashTitle(t('flashFocus'));
+      sendNotification(t('notifPauseDoneTitle'), t('notifPauseDoneBody'));
     }
     if (autoContinueBox.checked){ start(); }
   }
@@ -1114,7 +1212,7 @@
     pauseIconBtn.style.display = '';
     tickHandle = setInterval(tick, 1000);
     updateDisplay();
-    announce('Gestartet: ' + MODE_LABELS[currentMode] + ', ' + formatTime(remaining) + ' verbleibend');
+    announce(t('announceStartedPrefix') + MODE_LABELS[currentLang][currentMode] + ', ' + formatTime(remaining) + t('announceRemainingSuffix'));
   }
   function pause(){
     running = false;
@@ -1126,7 +1224,7 @@
   }
 
   powerBtn.addEventListener('click', () => {
-    if (running){ pause(); announce('Pausiert'); } else { start(); }
+    if (running){ pause(); announce(t('announcePaused')); } else { start(); }
   });
 
   document.getElementById('resetBtn').addEventListener('click', () => {
@@ -1195,7 +1293,7 @@
 
   notifBtn.addEventListener('click', async () => {
     if (!('Notification' in window)){
-      alert('Dein Browser unterstützt keine Systembenachrichtigungen.');
+      alert(t('alertNoNotif'));
       return;
     }
     if (notifyOn){
@@ -1211,7 +1309,7 @@
       return;
     }
     if (Notification.permission === 'denied'){
-      alert('Benachrichtigungen sind im Browser blockiert. Bitte in den Website-Einstellungen des Browsers erlauben.');
+      alert(t('alertNotifBlocked'));
       return;
     }
     const perm = await Notification.requestPermission();
@@ -1374,7 +1472,7 @@
 
   pipBtn.addEventListener('click', async () => {
     if (!('documentPictureInPicture' in window)){
-      alert('Diese Funktion benötigt Chrome oder Edge (aktuelle Version). Der Timer läuft trotzdem normal weiter.');
+      alert(t('alertNoPip'));
       return;
     }
     try{
@@ -1397,7 +1495,6 @@
       pipWin.document.body.appendChild(pageEl);
       activePipWin = pipWin;
       pipPlaceholder.style.display = 'flex';
-      try{ window.blur(); }catch(e){}
       pipWin.addEventListener('pagehide', returnFromPip);
     }catch(err){ console.error(err); }
   });
@@ -1416,6 +1513,155 @@
   helpBtn.addEventListener('click', toggleHelp);
   helpClose.addEventListener('click', closeHelp);
 
+  // --- Sprache / Language ---
+  const helpContentEl = document.getElementById('helpContent');
+  const HELP_HTML_DE = helpContentEl.innerHTML;
+  const HELP_HTML_EN = `
+    <h3>How to open the timer</h3>
+    <p><b>Works on any device:</b> just tap or click this link — Windows, Mac, phone or tablet, iPhone/iPad or Android, doesn't matter:</p>
+    <p><code>romonasa.github.io/pomodoro-focus-timer/Pomodoro-Focus-Timer.html</code></p>
+    <p class="help-note">A link is basically a signpost on the internet — tap it and the page opens by itself. You'll need an internet connection the first time you open it; after that the timer keeps running even if the connection drops.</p>
+    <p class="help-note">Phone tip: use your browser menu to "Add to Home Screen" — then you'll get an icon just like a real app.</p>
+
+    <h3>No internet right now?</h3>
+    <p>Download the file <code>Pomodoro-Focus-Timer.html</code> once, save it somewhere (e.g. "Downloads"), and open it from there by double-clicking — it then runs fully offline.</p>
+    <p class="help-note">This downloaded file and the link above don't "know" about each other — your saved times might differ depending on which one you're using.</p>
+
+    <h3>Your own window on Windows (optional)</h3>
+    <p>Download and open <code>Pomodoro-Focus-Timer-starten.bat</code> — shows the timer in its own small window with no tabs, kind of like a real app. Needs Chrome or Edge, plus internet at startup.</p>
+
+    <h3>Modes</h3>
+    <p>Use the four tabs below to switch between <b>Focus</b>, <b>Short Break</b>, <b>Long Break</b> and <b>Meeting</b>. After 4 focus sessions, the timer switches to the long break automatically.</p>
+
+    <h3>The four corner buttons</h3>
+    <p>
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></span>
+      <b>Top left:</b> Start. While the timer's running, this turns into a pause button.<br>
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
+      <b>Top right:</b> opens settings<br>
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg></span>
+      <b>Bottom left:</b> resets the time back to the start<br>
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 4 15 12 5 20 5 4"></polygon><rect x="17" y="4" width="2.5" height="16" rx="1"></rect></svg></span>
+      <b>Bottom right:</b> skips to the next round
+    </p>
+    <p>
+      <b>The small icons in the middle:</b><br>
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></span> Sound <b>on</b>
+      &nbsp;/&nbsp;
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></span> Sound <b>off</b> (crossed out) &nbsp;
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span> lights up during breaks &nbsp;
+      <span class="help-icon" style="color:var(--accent);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg></span> lights up during Focus/Meeting<br>
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></span> Notification <b>on</b>
+      &nbsp;/&nbsp;
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><path d="M18.63 13A17.89 17.89 0 0 1 18 8"></path><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"></path><path d="M18 8a6 6 0 0 0-9.33-5"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></span> Notification <b>off</b> (crossed out)
+    </p>
+    <p class="help-note">
+      The first time you tap the bell, your device will ask once whether it's allowed to show you notifications — tap <b>"Allow"</b>, otherwise this feature just stays quiet.
+    </p>
+
+    <h3>Typing in a time yourself</h3>
+    <p>Tap the big number in the middle, type a new number, press Enter to confirm. On a computer you can also use a colon (e.g. "25:00"). On a phone, just digits are enough: "25" gives you 25 minutes, "100" gives you 1 minute (the last two digits are read as seconds). In Meeting mode, short numbers always count as minutes ("120" → 120 minutes).</p>
+    <p class="help-note">Heads-up: in some browsers the text cursor might look a little different than expected while typing. That's purely visual — typing still works normally.</p>
+
+    <h3>Settings</h3>
+    <p>Tap the gear icon top right: ready-made time presets (Classic, Deep Work, Ultradian) and meeting presets, your own times via +/-, a heads-up warning for meetings, plus different color themes and font sizes under "Appearance".</p>
+
+    <h3>Keyboard shortcuts</h3>
+    <p><b>Spacebar</b> — Start / Pause<br><b>R</b> — Reset</p>
+
+    <h3>For people with specific needs</h3>
+    <p>
+      <b>Strong contrast:</b> the "Contrast" theme (black/white) for anyone who sees less well or is sensitive to color<br>
+      <b>No flashing:</b> "Calm display" replaces flashing effects with one gentle, single glow — automatically detected if your device is already set to "reduce motion"<br>
+      <b>Large text:</b> Small/Medium/Large for the time display<br>
+      <b>Fully usable without a mouse:</b> everything works with just a keyboard, too<br>
+      <b>Read-aloud support:</b> if you have a screen reader turned on (e.g. Windows Narrator, or VoiceOver on iPhone), important changes get read out automatically<br>
+      <b>Clear icons instead of color alone:</b> e.g. a crossed-out bell means notifications are off
+    </p>
+
+    <h3>Keeping it always in view</h3>
+    <p>
+      <span class="help-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"></rect><rect x="12" y="11" width="7" height="5" rx="1" fill="currentColor"></rect></svg></span>
+      The screen icon up top pops the timer out into a small floating window that stays on top of every other program — a bit like the little video window that's sometimes left over during video calls. Desktop only, with Chrome or Edge.
+    </p>
+
+    <h3>Your settings stick around</h3>
+    <p>Anything you set (times, colors, etc.) is remembered automatically — even after you close it. Nothing is ever sent anywhere; it all stays on your own device.</p>
+  `;
+
+  const langBtn = document.getElementById('langBtn');
+
+  function applyLanguage(lang){
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    langBtn.textContent = lang === 'de' ? 'EN' : 'DE';
+    langBtn.title = lang === 'de' ? 'Switch to English' : 'Auf Deutsch umschalten';
+    langBtn.setAttribute('aria-label', langBtn.title);
+
+    document.getElementById('uiTitle').textContent = t('title');
+    helpBtn.title = t('helpLabel'); helpBtn.setAttribute('aria-label', t('helpLabel'));
+    pipBtn.title = t('pipLabel'); pipBtn.setAttribute('aria-label', t('pipLabel'));
+    powerBtn.title = t('powerLabel'); powerBtn.setAttribute('aria-label', t('powerLabel'));
+    document.getElementById('settingsToggle').title = t('settingsLabel');
+    document.getElementById('settingsToggle').setAttribute('aria-label', t('settingsLabel'));
+    document.getElementById('resetBtn').title = t('resetLabel');
+    document.getElementById('resetBtn').setAttribute('aria-label', t('resetLabel'));
+    document.getElementById('skipBtn').title = t('skipLabel');
+    document.getElementById('skipBtn').setAttribute('aria-label', t('skipLabel'));
+    muteBtn.title = t('muteLabel'); muteBtn.setAttribute('aria-label', t('muteLabel'));
+    notifBtn.title = t('notifLabel'); notifBtn.setAttribute('aria-label', t('notifLabel'));
+    timeDisplay.setAttribute('aria-label', t('timeAria'));
+
+    document.getElementById('modeFocusBtn').textContent = MODE_LABELS[lang].focus;
+    document.getElementById('modeShortBtn').textContent = MODE_LABELS[lang].short;
+    document.getElementById('modeLongBtn').textContent = MODE_LABELS[lang].long;
+    document.getElementById('modeMeetingBtn').textContent = MODE_LABELS[lang].meeting;
+
+    document.getElementById('presetClassicBtn').innerHTML = t('presetClassic') + '<br><small>25/5</small>';
+    document.getElementById('labelFocus').textContent = t('labelFocus');
+    document.getElementById('labelShort').textContent = t('labelShort');
+    document.getElementById('labelLong').textContent = t('labelLong');
+    document.getElementById('dividerMeeting').textContent = t('dividerMeeting');
+    document.getElementById('labelDuration').textContent = t('labelDuration');
+    document.getElementById('labelWarning').textContent = t('labelWarning');
+    document.getElementById('mp15').textContent = '15' + t('mpSuffix');
+    document.getElementById('mp30').textContent = '30' + t('mpSuffix');
+    document.getElementById('mp45').textContent = '45' + t('mpSuffix');
+    document.getElementById('mp60').textContent = '60' + t('mpSuffix');
+    document.getElementById('labelAutoContinue').textContent = t('labelAutoContinue');
+    document.getElementById('dividerAppearance').textContent = t('dividerAppearance');
+    document.getElementById('themeStandardBtn').textContent = t('themeStandard');
+    document.getElementById('themeBueroBtn').textContent = t('themeBuero');
+    document.getElementById('themeKontrastBtn').textContent = t('themeKontrast');
+    document.getElementById('themeBuntBtn').textContent = t('themeBunt');
+    document.getElementById('sizeKleinBtn').textContent = t('sizeKlein');
+    document.getElementById('sizeMittelBtn').textContent = t('sizeMittel');
+    document.getElementById('sizeGrossBtn').textContent = t('sizeGross');
+    document.getElementById('labelNoBlink').textContent = t('labelNoBlink');
+    document.getElementById('hintText').textContent = t('hintText');
+
+    document.getElementById('tempWarningMsg').textContent = t('tempWarningMsg');
+    document.getElementById('tempWarningHint').innerHTML = t('tempWarningHint');
+    document.getElementById('tempWarningClose').textContent = t('tempWarningClose');
+    document.getElementById('pipMsg').textContent = t('pipMsg');
+    document.getElementById('pipHint').textContent = t('pipHint');
+    pipReturnBtn.textContent = t('pipReturn');
+
+    document.getElementById('helpTitle').textContent = t('helpTitle');
+    helpContentEl.innerHTML = lang === 'de' ? HELP_HTML_DE : HELP_HTML_EN;
+
+    pageTitleBase = lang === 'de' ? 'Pomodoro — Fokus-Uhr' : 'Pomodoro — Focus Timer';
+    if (!titleFlashHandle) document.title = pageTitleBase;
+
+    updateClock();
+    updateDailyDisplay();
+    saveSettings();
+  }
+
+  langBtn.addEventListener('click', () => {
+    applyLanguage(currentLang === 'de' ? 'en' : 'de');
+  });
+
   // --- Tastaturkürzel: Leertaste = Start/Pause, R = Zurücksetzen ---
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && helpOverlay.classList.contains('open')){ closeHelp(); return; }
@@ -1425,6 +1671,8 @@
     if (e.code === 'Space'){ e.preventDefault(); running ? pause() : start(); }
     if (e.key === 'r' || e.key === 'R'){ document.getElementById('resetBtn').click(); }
   });
+
+  applyLanguage((saved && saved.lang) || 'de');
 })();
 </script>
 </body>
