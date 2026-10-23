@@ -845,8 +845,18 @@
   function saveDaily(){
     try{ localStorage.setItem(DAILY_KEY, JSON.stringify({ date: todayStr(), count: dailyCount })); }catch(e){}
   }
+  function storedDailyDate(missing){
+    // Liest das gespeicherte Datum des Tageszaehlers. Fehlt der Eintrag, gilt 'missing';
+    // bei defektem/gesperrtem Speicher gilt 'heute' (also: nichts zuruecksetzen).
+    try{
+      const raw = localStorage.getItem(DAILY_KEY);
+      if (!raw) return missing;
+      const d = JSON.parse(raw);
+      return (d && d.date) || missing;
+    }catch(e){ return todayStr(); }
+  }
   function bumpDailyCount(){
-    if (todayStr() !== (JSON.parse(localStorage.getItem(DAILY_KEY) || '{}').date || todayStr())){
+    if (todayStr() !== storedDailyDate(todayStr())){
       dailyCount = 0;
     }
     dailyCount++;
@@ -1037,7 +1047,7 @@
     const hh = String(now.getHours()).padStart(2,'0');
     const mm = String(now.getMinutes()).padStart(2,'0');
     clockNowEl.textContent = hh+':'+mm;
-    if (todayStr() !== JSON.parse(localStorage.getItem(DAILY_KEY) || '{"date":""}').date && dailyCount !== 0){
+    if (todayStr() !== storedDailyDate('') && dailyCount !== 0){
       dailyCount = 0; saveDaily(); updateDailyDisplay();
     }
   }

@@ -36,7 +36,7 @@ Falls du die Uhr an einem Ort ohne Internetzugang brauchst (z. B. Schule ohne WL
 
 ### Eigenes App-Fenster für Windows (optional)
 
-[`Pomodoro-Focus-Timer-starten.bat`](Pomodoro-Focus-Timer-starten.bat) herunterladen und öffnen — zeigt die Uhr in einem eigenen, schlanken Fenster ohne Tabs und Adressleiste. Braucht Chrome oder Edge sowie eine Internetverbindung beim Start.
+[`Pomodoro-Focus-Timer-starten.bat`](Pomodoro-Focus-Timer-starten.bat) herunterladen und öffnen — zeigt die Uhr in einem eigenen, schlanken Fenster ohne Tabs und Adressleiste. Nutzt Chrome oder Edge (ohne beide öffnet sich die Seite im Standardbrowser) und braucht beim Start eine Internetverbindung.
 
 ---
 
@@ -75,16 +75,16 @@ Es werden **keinerlei Daten gesammelt, gespeichert oder übertragen**. Alle Eins
 ## Sicherheit
 
 - Vollständig quelloffen — jede Zeile Code ist hier einsehbar
-- Enthält eine strikte Content-Security-Policy, die jegliche Netzwerkverbindung auf Browser-Ebene blockiert
+- Enthält eine strikte Content-Security-Policy, die Datenabrufe (fetch, XHR, WebSocket) sowie externe Skripte, Bilder und Schriften auf Browser-Ebene blockiert
 - Beide PDFs objektiv geprüft: kein JavaScript, keine Formularfelder, keine automatischen Aktionen beim Öffnen
 
 **SHA-256-Prüfsummen** (zur Überprüfung, dass deine Datei unverändert ist):
 ```
 Pomodoro-Focus-Timer.html
-ebe6300add16a915e107f6425b8b8f969004a156a3bfea6bbd4a2e063a8a8d5a
+482ef274379074d0a02abb95527aceb8b8ebb283cb012109e266d2921c51fbe9
 
 Pomodoro-Focus-Timer-starten.bat
-97d4d71635f35a5408e06715ceabc3c6aaccc6d2e33d3681f1850ded69f1b3b4
+5f1d02f89a3175d389cd790d35cbd05d841abef3dd9025acfb1c9a8134f112eb
 
 Pomodoro-Focus-Timer-Bedienungsanleitung.pdf
 921024491e9032c5cfbd11e6fbe79fde541c1c0760b447e2057b97ca6e807a50
@@ -97,8 +97,8 @@ Pomodoro-Focus-Timer-Promo-Quadrat.png
 ```
 
 **VirusTotal-Scan:**
-- [HTML-Datei](https://www.virustotal.com/gui/file/ebe6300add16a915e107f6425b8b8f969004a156a3bfea6bbd4a2e063a8a8d5a)
-- [.bat-Datei](https://www.virustotal.com/gui/file/97d4d71635f35a5408e06715ceabc3c6aaccc6d2e33d3681f1850ded69f1b3b4)
+- [HTML-Datei](https://www.virustotal.com/gui/file/482ef274379074d0a02abb95527aceb8b8ebb283cb012109e266d2921c51fbe9)
+- [.bat-Datei](https://www.virustotal.com/gui/file/5f1d02f89a3175d389cd790d35cbd05d841abef3dd9025acfb1c9a8134f112eb)
 - [PDF (Deutsch)](https://www.virustotal.com/gui/file/921024491e9032c5cfbd11e6fbe79fde541c1c0760b447e2057b97ca6e807a50)
 - [PDF (English)](https://www.virustotal.com/gui/file/5bcc127db1576b52c9bd2fb233084709b682062cb152ff5902c43d3822316228)
 - [Promo-Bild (PNG)](https://www.virustotal.com/gui/file/3b5ba3d3f7c02234f0693e9f6602b7b4faa26a8651dee0867c86e84ba914a067)
